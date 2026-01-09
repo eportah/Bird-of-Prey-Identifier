@@ -10,12 +10,11 @@ st.set_page_config(pageTitle="Bird Of Prey Identifier")
 st.title("Bird of Prey Identifier")
 st.write("Upload an image of a bird for the model to predict if it's a bird of prey or not.")
 
-#streamlit cache command so app loads model once rather than each time an image is uploaded
-@st.cache.resource
-
-#load saved model and define prediction function
+#establish path
 MODEL_PATH = 'birdOfPreyIdentifier.keras'
-model = tf.keras.models.load_model(MODEL_PATH)
+
+#cache command to load model once rather than each time an image is uploaded
+@st.cache.resource
 def loadTrainedModel():
   model = tf.keras.models.load_model(MODEL_PATH)
   return model
