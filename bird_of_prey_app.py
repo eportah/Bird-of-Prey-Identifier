@@ -17,7 +17,7 @@ MODEL_PATH = 'bird_of_prey_identifier.keras'
 
 #cache command to load model once rather than each time an image is uploaded
 @st.cache_resource
-def loadTrainedModel():
+def load_trained_model():
   model = tf.keras.models.load_model(MODEL_PATH)
   return model
 
