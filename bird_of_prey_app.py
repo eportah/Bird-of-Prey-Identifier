@@ -6,7 +6,7 @@ from keras.applications.mobilenet_v2 import preprocess_input
 
 #establish path and class names
 MODEL_PATH = 'bird_of_prey_identifier.keras'
-CLASS_NAMES = ['Eagle', 'Falcon', 'Hawk', 'Owl', 'Vulture', 'Not a Bird of Prey']
+CLASS_NAMES = ['Bird of Prey', 'Not a Bird of Prey']
 
 @st.cache_resource
 def load_model():
