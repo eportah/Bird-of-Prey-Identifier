@@ -2,19 +2,21 @@ import streamlit as st
 import numpy as np
 import tensorflow as tf
 from PIL import Image
-from keras.preprocessing import image
 from keras.applications.mobilenet_v2 import preprocess_input
 
-#establish path
+#establish path and class names
 MODEL_PATH = 'bird_of_prey_identifier.keras'
+CLASS_NAMES = [
+    'Eagle', 'Falcon', 'Hawk', 'Owl', 'Vulture', 'Not a Bird Of Prey'
+   ]
 
 #cache command to load model once rather than each time an image is uploaded
 @st.cache_resource
 def load_trained_model():
-  model = tf.keras.models.load_model(MODEL_PATH)
+  model = tf.keras.models.load_model(MODEL_PATH, compile=False)
   return model
 
-#set up page
+#page layout
 st.set_page_config(page_title="Bird Of Prey Identifier")
 st.title("Bird of Prey Identifier")
 st.write(
@@ -23,9 +25,6 @@ st.write(
 
 #load model 
 model = load_trained_model()
-
-#define class names
-CLASS_NAMES = ['eagle', 'falcon', 'hawk', 'owl', 'vulture', 'NotBirdsOfPrey']
 
 #preprocess image and return predicted class and confidence score
 """
@@ -59,7 +58,7 @@ def predict_bird_of_prey(img_to_predict, model):
 
 #file uploader
 uploaded_file = st.file_uploader(
-    "Upload an image...", type=["jpg", "jpeg", "png"]
+    "Upload a bird image...", type=["jpg", "jpeg", "png"]
     )
 
 #classify uploaded image and yield prediction and confidence
@@ -69,12 +68,11 @@ st.button to create Classify button
 st.spinner for a loading message
 st.success and st.info for results
 """
-if uploaded_file is not None:
-  pil_image = Image.open(uploaded_file)
-  st.image(pil_image, caption='Uploaded image', use_column_width=True)
+if uploaded_file:
+  image = Image.open(uploaded_file)
+  st.image(image, caption='Uploaded image', use_container_width=True)
 
-  if st.button('Classify'):
-    with st.spinner('Analyzing...'):
-      result_spec_bird, confidence = predict_bird_of_prey(pil_image, model)
-      st.success(f"Prediction: **{result_spec_bird}**")
-      st.info(f"Confidence: **{confidence:.2f}%**")
+  if st.button('Identify'):
+    model = load_trained_model()
+    label, score = predict(image, model)
+    st.write(f"**Result:**{label} ({Score: .1f}%)")
