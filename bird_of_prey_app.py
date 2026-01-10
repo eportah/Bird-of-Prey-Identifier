@@ -13,23 +13,13 @@ def load_model():
     return tf.keras.models.load_model(MODEL_PATH, compile=False)
 
 st.title("Bird of Prey Identifier")
-uploaded_file = st.file_uploader(
-    "Upload an image of a bird", type=["jpg", "jpeg", "png"]
-    )
+uploaded_file = st.file_uploader("Upload an image of a bird", type=["png", "jpg", "jpeg"])
 
-#display
-"""
-load model
-preprocess image
-predict with label and confidence
-results for bird of prey or not
-"""
+#image
 if uploaded_file:
-    #display 
     image = Image.open(uploaded_file).convert('RGB')
     st.image(image, caption="Uploaded Image", use_container_width=True)
     
-   
     if st.button("Identify"):
         with st.spinner("Analyzing..."):
       
