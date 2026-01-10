@@ -9,13 +9,14 @@ from keras.applications.mobilenet_v2 import preprocess_input
 st.set_page_config(page_title="Bird Of Prey Identifier")
 st.title("Bird of Prey Identifier")
 st.write(
-  "Upload image of a bird for the model to predict")
+  "Upload an image of a bird to determine if it's a bird of prey or not"
+  )
 
 #establish path
-MODEL_PATH = 'birdOfPreyIdentifier.keras'
+MODEL_PATH = 'bird_of_prey_identifier.keras'
 
 #cache command to load model once rather than each time an image is uploaded
-@st.cache.resource
+@st.cache_resource
 def loadTrainedModel():
   model = tf.keras.models.load_model(MODEL_PATH)
   return model
